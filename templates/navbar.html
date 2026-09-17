@@ -2,13 +2,19 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Employee Management System</title>
-    
 
     <style>
+
+        /* =========================
+           DEFAULT
+        ========================= */
 
         * {
             margin: 0;
@@ -18,35 +24,135 @@
 
         body {
             font-family: Arial, sans-serif;
+            min-height: 100vh;
+            transition: background-color 0.3s ease,
+                        color 0.3s ease;
         }
 
-        /* Navbar */
+
+        /* =========================
+           LIGHT MODE
+        ========================= */
+
+        body.light {
+            background-color: #f5f5f5;
+            color: #222;
+        }
+
+        body.light .content {
+            background-color: white;
+            color: #222;
+        }
+
+        body.light .content h1 {
+            color: #222;
+        }
+
+        body.light .content p {
+            color: #555;
+        }
+
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        body.dark {
+            background-color: #121212;
+            color: white;
+        }
+
+        body.dark .content {
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        body.dark .content h1 {
+            color: white;
+        }
+
+        body.dark .content p {
+            color: #ddd;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
         .navbar {
             background-color: #222;
             padding: 15px 30px;
+
             display: flex;
             align-items: center;
+
+            min-height: 70px;
         }
 
-        /* Logo */
+
+        /* =========================
+           LOGO
+        ========================= */
+
         .logo {
             color: white;
             font-size: 22px;
             font-weight: bold;
+
             margin-right: auto;
         }
 
-        /* Navigation links */
+
+        /* =========================
+           THEME BUTTONS
+        ========================= */
+
+        .theme-buttons {
+            display: flex;
+            gap: 10px;
+
+            margin-right: 20px;
+        }
+
+        .theme-buttons a {
+            color: white;
+
+            text-decoration: none;
+
+            border: 1px solid #00bcd4;
+
+            padding: 8px 12px;
+
+            border-radius: 5px;
+
+            font-size: 14px;
+        }
+
+        .theme-buttons a:hover {
+            background-color: #00bcd4;
+        }
+
+
+        /* =========================
+           NAV LINKS
+        ========================= */
+
         .nav-links {
             display: flex;
+
             align-items: center;
+
             list-style: none;
+
             gap: 20px;
         }
 
         .nav-links a {
             color: white;
+
             text-decoration: none;
+
             font-size: 16px;
         }
 
@@ -54,106 +160,201 @@
             color: #00bcd4;
         }
 
-        /* Login button */
+
+        /* =========================
+           LOGIN
+        ========================= */
+
         .login-btn {
             border: 1px solid #00bcd4;
+
             padding: 8px 15px;
+
             border-radius: 5px;
         }
 
         .login-btn:hover {
             background-color: #00bcd4;
+
             color: white !important;
         }
 
-        /* Register button */
+
+        /* =========================
+           REGISTER
+        ========================= */
+
         .register-btn {
             background-color: #00bcd4;
+
             padding: 8px 15px;
+
             border-radius: 5px;
         }
 
         .register-btn:hover {
             background-color: #0097a7;
+
             color: white !important;
         }
 
-        /* Content */
+
+        /* =========================
+           CONTENT
+        ========================= */
+
         .content {
-            padding: 50px;
+            width: 80%;
+
+            margin: 60px auto;
+
+            padding: 60px 30px;
+
+            border-radius: 10px;
+
             text-align: center;
+
+            transition: 0.3s;
+        }
+
+
+        .content h1 {
+            margin-bottom: 20px;
+        }
+
+
+        .content p {
+            font-size: 18px;
         }
 
     </style>
 
 </head>
 
-<body flask="{{theme}}">
 
-    <!-- ================= NAVBAR ================= -->
+<!-- IMPORTANT:
+     Flask sends theme = light/dark
+-->
+
+<body class="{{ theme }}">
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
 
     <nav class="navbar">
+
+
+        <!-- LOGO -->
 
         <div class="logo">
             Employee Management System
         </div>
 
+
+        <!-- THEME BUTTONS -->
+
+        <div class="theme-buttons">
+
+            <a href="/set-theme/light">
+                ☀ Light
+            </a>
+
+            <a href="/set-theme/dark">
+                🌙 Dark
+            </a>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
         <ul class="nav-links">
 
-            <!-- Home -->
             <li>
-                <a href="/">Home</a>
-            </li>
-
-            <!-- Employees -->
-            <li>
-                <a href="/employees">Employees</a>
-            </li>
-
-            <!-- Add Employee -->
-            <li>
-                <a href="/add-employee">Add Employee</a>
-            </li>
-
-            <!-- Search -->
-            <li>
-                <a href="#">Search</a>
-            </li>
-
-            <!-- Login -->
-            <li>
-                <a href="/login" class="login-btn">
-                    Login
+                <a href="/">
+                    Home
                 </a>
             </li>
 
-            <!-- Register -->
             <li>
-                <a href="/register" class="register-btn">
-                    Register
+                <a href="/employees">
+                    Employees
                 </a>
             </li>
+
+            <li>
+                <a href="/add-employee">
+                    Add Employee
+                </a>
+            </li>
+
+            <li>
+                <a href="/search">
+                    Search
+                </a>
+            </li>
+
+
+            {% if username %}
+
+                <li>
+                    <a href="/logout">
+                        Logout
+                    </a>
+                </li>
+
+            {% else %}
+
+                <li>
+                    <a href="/login"
+                       class="login-btn">
+                        Login
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/register"
+                       class="register-btn">
+                        Register
+                    </a>
+                </li>
+
+            {% endif %}
 
         </ul>
 
     </nav>
 
 
-    <!-- ================= HOME CONTENT ================= -->
+    <!-- =========================
+         CONTENT
+    ========================= -->
 
     <div class="content">
 
-        <h1>
-            Welcome to Employee Management System
-        </h1>
+        {% if fullname %}
 
-        <br>
+            <h1>
+                Welcome, {{ fullname }}!
+            </h1>
+
+        {% else %}
+
+            <h1>
+                Welcome to Employee Management System
+            </h1>
+
+        {% endif %}
+
 
         <p>
             Manage your employees easily.
         </p>
 
     </div>
+
 
 </body>
 
