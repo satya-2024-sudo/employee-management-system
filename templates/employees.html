@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,sans-serif;background:#fff;}
+.navbar{height:102px;background:#222;display:flex;align-items:center;justify-content:space-between;padding:0 55px;}
+.logo{color:white;font-size:42px;font-weight:bold;}
+.nav-links{display:flex;gap:38px;align-items:center;}
+.nav-links a{color:white;text-decoration:none;font-size:28px;}
+.nav-links a:hover{color:#00b8d4;}
+.container{width:92%;margin:40px auto;}
+h1{text-align:center;font-size:35px;margin-bottom:25px;}
+table{width:100%;border-collapse:collapse;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+th,td{border:1px solid #ddd;padding:12px 15px;text-align:left;}
+th{background:#222;color:white;font-size:
+    16px;}
+td{font-size:15px;}
+tr:nth-child(even){background:#f9f9f9;}
+tr:hover{background:#f1f1f1;}
+.action a{color:#00b8d4;font-weight:bold;margin-right:8px;}
+.action a:last-child{color:red;}
+</style>
+</head>
+<body>
+      <div class="table-container">
+         <table>
+            <thead>
+                 <tr>
+                    <th>ID</th>
+                    <th> Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Department</th>
+                    <th>Salary</th>
+                    <th>Joining Date</th>
+                    <th>Address</th>
+                    <th> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if employees%}
+                {% for employee in employees %}
+                <tr>
+                    <td> {{ employee['id'] }}</td>
+                    <td>{{ employee['name'] }}</td>
+                    <td>{{ employee['email'] }}</td>
+                    <td>{{ employee['phone'] }}</td>
+                    <td>{{ employee['department'] }}</td>
+                     <td> ₹{{ employee['salary'] }}</td>
+                        <td> {{ employee['joining_date'] }}</td>
+                        <td>{{ employee['address'] }}</td>
+                        <td class="action">
+                            <!-- EDIT -->
+
+                            <a href="/edit-employee/{{employee['id']}}"
+                               class="edit-btn">
+
+                                Edit
+
+                            </a>
+
+
+                            <!-- DELETE -->
+
+                            <a href="/delete-employee/{{employee['id']}}"
+                               class="delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this employee?');">
+
+                                Delete
+
+                            </a>
+
+
+                        </td>
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+
+            {% else %}
+            <tr>
+                <td colspan="9" class="no employees"> No employees found.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+
+    </div>
+
+
+</body>
+
+</html>
