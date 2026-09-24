@@ -56,6 +56,7 @@ def home():
     theme = request.cookies.get("theme", "light")
     return render_template("navbar.html", theme=theme, username=session.get("username"), fullname=session.get("fullname"))
 
+@app.route("/register", methods=["GET", "POST"])
 @app.route("/register2", methods=["GET", "POST"])
 def register2():
     theme = request.cookies.get("theme", "light")
