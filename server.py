@@ -141,7 +141,7 @@ def home():
 # 3. REGISTER PAGE - GET
 # =========================================
 
-@app.route("/register", methods=["GET"])
+@app.route("/register2", methods=["GET"])
 def register_page():
 
     theme = request.cookies.get(
@@ -159,7 +159,7 @@ def register_page():
 # 4. REGISTER USER - POST
 # =========================================
 
-@app.route("/register", methods=["POST"])
+@app.route("/register2", methods=["POST"])
 def register():
 
     fullname = request.form.get(
