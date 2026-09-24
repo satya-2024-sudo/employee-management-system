@@ -864,9 +864,9 @@ def edit_employee(id):
 # START APPLICATION
 # =========================================
 
-if __name__ == "__main__":
+create_database()
 
-    create_database()
+if __name__ == "__main__":
 
     app.run(
         debug=True
