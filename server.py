@@ -137,90 +137,33 @@ def home():
     )
 
 
-# =========================================
-# 3. REGISTER PAGE - GET
-# =========================================
+@app.route("/register2", methods=["GET", "POST"])
+def register2():
+    theme = request.cookies.get("theme", "light")
+    if request.method == "POST":
+        fullname = request.form.get("fullname","").strip()
+        username = request.form.get("username","").strip()
+        password = request.form.get("password","")
+        if not fullname or not username or not password:
+            return render_template("register2.html", theme=theme, error="All fields required.")
+        hashed = generate_password_hash(password)
+        conn = sqlite3.connect('employee.db')
+        c = conn.cursor()
+        try:
+            c.execute("INSERT INTO users (username, password, fullname) VALUES (?, ?, ?)", (username, hashed, fullname))
+            conn.commit()
+            return redirect(url_for('login'))
+        except:
+            return render_template("register2.html", theme=theme, error="User already exists!")
+        finally:
+            conn.close()
+    return render_template("register2.html", theme=theme)
 
-@app.route("/register2", methods=["GET"])
-def register_page():
-
-    theme = request.cookies.get(
-        "theme",
-        "light"
-    )
-
-    return render_template(
-        "register2.html",
-        theme=theme
-    )
 
 
-# =========================================
-# 4. REGISTER USER - POST
-# =========================================
-
-@app.route("/register2", methods=["POST"])
-def register():
-
-    fullname = request.form.get(
-        "fullname",
-        ""
-    ).strip()
-
-    username = request.form.get(
-        "username",
-        ""
-    ).strip()
-
-    password = request.form.get(
-        "password",
-        ""
-    )
-
-    # =====================================
-    # VALIDATION
-    # =====================================
-
-    if not fullname:
-
-        return render_template(
-            "register2.html",
-            theme=request.cookies.get(
-                "theme",
-                "light"
-            ),
-            error="Full name is required."
-        )
-
-    if not username:
-
-        return render_template(
-            "register2.html",
-            theme=request.cookies.get(
-                "theme",
-                "light"
-            ),
-            error="Username is required."
-        )
-
-    if not password:
-
-        return render_template(
-            "register2.html",
-            theme=request.cookies.get(
-                "theme",
-                "light"
-            ),
-            error="Password is required."
-        )
-
-    # =====================================
-    # HASH PASSWORD
-    # =====================================
-
-    hashed_password = generate_password_hash(
-        password
-    )
+       
+       
+             
 
     # =====================================
     # INSERT USER
